@@ -1,0 +1,91 @@
+<div class="col-md-4 graph-data">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="">Chart Analysis Options</h3>
+        </div>
+        <div class="panel-body">
+          <form name="analysisOptionsForm">
+
+            <p ng-repeat="item in allOptions" class="item" id="{{item.id}}">
+              <input type="checkbox"
+                ng-change="sync(bool, item)"
+                ng-model="bool"
+                >  {{item.value}}
+            <pre>{{data | json}}</pre>
+      </div>
+    </div>
+</div>
+
+
+<div class="col-md-4 graph-analysis">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="">Chart Source Options</h3>
+        </div>
+          <div class="panel-body">
+            <form name="sourceOptionsForm" ng-submit="submit(options)">
+              <label for="startDate">Start Date:</label>
+              <input type="date" class="form-control" id="startDate" ng-model="options.startDate" required>
+              <br/>
+              <label for="endDate">End Date:</label>
+              <input type="date" class="form-control" id="endDate" ng-model="options.endDate" required>
+              <br/>
+              <label for="interval">Source:</label>
+              <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="sourceSelect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  {{ selectedSource.name }}
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="sourceSelect">
+                  <li ng-repeat="source in sources">
+                    <a href="#" ng-click="setSource(source)"> {{ source.name }}</a>
+                  </li>
+                </ul>
+              </div>
+              <br/>
+
+              <label for="interval">Measurement:</label>
+              <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="measurement" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  {{ selectedMeasurement.name }}
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="sourceSelect">
+                  <li ng-repeat="measurement in measurements">
+                    <a href="#" ng-click="setMeasurement(measurement)"> {{ measurement.name }}</a>
+                  </li>
+                </ul>
+              </div>
+              <!-- <input type="text" class="form-control" id="interval" ng-model="options.source" required> -->
+              <br/>
+              <label for="interval">Interval Unit:</label>
+              <input type="text" class="form-control" id="interval" ng-model="options.intervalUnit" required>
+              <br/>
+
+              <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  {{ selectedInterval.name }}
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                  <li ng-repeat="item in intervals">
+                    <a href="#" ng-click="setInterval(item)"> {{ item.name }}</a>
+                  </li>
+                </ul>
+              </div>
+            </br>
+              <label for="repo">Repo: </label>
+              <input type ="text" class="form-control" id="repo-name" ng-model="options.repoName" />
+
+              <label for="repo">User: </label>
+              <input type ="text" class="form-control" id="user-name" ng-model="options.userName" />
+
+              <br/>
+              <button class="btn btn-lg btn-primary" type="submit" ng-submit="submit(options)">submit</button>
+            </div>
+
+              <pre>{{data | json}}</pre>
+
+          </div>
+    </div>
+</div>
