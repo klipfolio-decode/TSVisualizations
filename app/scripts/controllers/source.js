@@ -52,10 +52,10 @@ angular.module('klipfolioFrontEndApp')
     $scope.submit = function(){
       var source = $scope.selectedSource.id;
       var measurement = $scope.selectedMeasure.id;
-      var start = new Date($scope.options.start).getTime()/1000;
-      var end = new Date($scope.options.end).getTime()/1000;
+      var start = new Date($scope.source.start).getTime()/1000;
+      var end = new Date($scope.source.end).getTime()/1000;
       var intervalType = $scope.selectedInterval.id;
-      var intervalUnit = $scope.options.intervalUnit;
+      var intervalUnit = $scope.source.intervalUnit;
 
       // Get the data based on the query
       Backend.getDataFromQuery(source, measurement, start, end, intervalUnit, intervalType).then(function(){

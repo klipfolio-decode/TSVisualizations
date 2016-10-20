@@ -102,7 +102,7 @@ angular.module('klipfolioFrontEndApp')
 
 
       /// Subscribe to changes in the factory
-      Backend.subscribe($scope, function somethingChange(){
+      Backend.subscribe($scope, function(){
           refreshGraph();
       });
 
