@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name klipfolioFrontEndApp.controller:AboutCtrl
+ * @name klipfolioFrontEndApp.controller:SourceCtrl
  * @description
- * # AboutCtrl
+ * # SourceCtrl
  * Controller of the klipfolioFrontEndApp
  */
 angular.module('klipfolioFrontEndApp')
-  .controller('AboutCtrl', function ($scope, Backend) {
+  .controller('SourceCtrl', function ($scope, Backend) {
 
     /// Data Source Options - hardcoded for now
     $scope.sources = [
@@ -31,11 +31,8 @@ angular.module('klipfolioFrontEndApp')
     ];
 
     /// Set the default values
-    //$scope.options.start = new Date()/1000;
-    //$scope.options.end = new Date()/1000;
     $scope.selectedSource = $scope.sources[0];
     $scope.selectedMeasure = $scope.measurements[0];
-    // Cos seconds will overheat ur mac
     $scope.selectedInterval = $scope.intervals[2];
 
 
@@ -53,12 +50,6 @@ angular.module('klipfolioFrontEndApp')
     };
 
     $scope.submit = function(){
-      console.log('data:');
-      console.log($scope.options.start);
-      console.log($scope.options.end);
-      console.log($scope.selectedSource.id);
-      console.log($scope.selectedMeasure.id);
-
       var source = $scope.selectedSource.id;
       var measurement = $scope.selectedMeasure.id;
       var start = new Date($scope.options.start).getTime()/1000;
@@ -66,8 +57,10 @@ angular.module('klipfolioFrontEndApp')
       var intervalType = $scope.selectedInterval.id;
       var intervalUnit = $scope.options.intervalUnit;
 
-      Backend.getDataFromQuery(source, measurement, start, end, intervalUnit, intervalType).then(function(res){
-        //Backend.setGraphData(res);
+      // Get the data based on the query
+      Backend.getDataFromQuery(source, measurement, start, end, intervalUnit, intervalType).then(function(){
+        // after we get the data notify
+        Backend.notify();
       });
 
     };

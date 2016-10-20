@@ -25,10 +25,10 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
+      .when('/source', {
+        templateUrl: 'views/source.html',
+        controller: 'SourceCtrl',
+        controllerAs: 'source'
       })
       .when('/data', {
         templateUrl: 'views/data.html',

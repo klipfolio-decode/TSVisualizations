@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('klipfolioFrontEndApp').factory('Backend', function($http){
+angular.module('klipfolioFrontEndApp').factory('Backend', function($rootScope, $http){
 
   var graphData = [];
 
@@ -22,7 +22,6 @@ angular.module('klipfolioFrontEndApp').factory('Backend', function($http){
           // Save the graph to the factory so it can be used in other controllers
           graphData = [];
           graphData = res;
-          console.log('saved', graphData);
         })
         .catch(function(error){
           console.log('There was an error fetching the data :\'( : ' + error.message);
@@ -31,9 +30,18 @@ angular.module('klipfolioFrontEndApp').factory('Backend', function($http){
 
     // For controller 2 controller data
     getGraphData: function(){
-      console.log('getting data');
       return graphData;
+    },
+
+    subscribe: function(scope, callback){
+      var handler = $rootScope.$on('backend:getGraphData', callback);
+      scope.$on('$destroy', handler);
+    },
+
+    notify: function(){
+      $rootScope.$emit('backend:getGraphData');
     }
+
 
   };
   return Auth;
