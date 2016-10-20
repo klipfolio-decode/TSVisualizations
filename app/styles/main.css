@@ -151,6 +151,13 @@ body {
     background: none;
 }
 
+.menu-content {
+  margin-top: 15px;
+  padding: 15px;
+  border-top: 2px solid;
+  overflow: visible;
+}
+
 @media(min-width:768px) {
     #wrapper {
         padding-left: 250px;

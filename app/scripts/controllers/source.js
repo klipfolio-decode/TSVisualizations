@@ -27,7 +27,8 @@ angular.module('klipfolioFrontEndApp')
       {id: 's', name: 'Seconds'},
       {id: 'm', name: 'Minutes'},
       {id: 'h', name: 'Hours'},
-      {id: 'd', name: 'Days'}
+      {id: 'd', name: 'Days'},
+      {id: 'w', name: 'Weeks'}
     ];
 
     /// Set the default values
