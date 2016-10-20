@@ -2,43 +2,38 @@
 
 angular.module('klipfolioFrontEndApp').factory('Backend', function($http){
 
+  var graphData = [];
+
   var Auth = {
 
     // Get da defaults
     getDefaultData: function(){
       console.log('Calling backend to get data with no paramz');
-      //var results = [];
       // Return the $http promise not the data
-      return $http({method: 'GET', url: 'http://localhost:8080/data/github/commit'
+      return $http.get('http://localhost:8080/data/github/commit?start=1475419531&end=1476543246&interval=1d')
+        .catch(function(error){
+          console.log('There was an error fetching the data :\'( : ' + error.message);
+        });
+    },
 
+    getDataFromQuery: function(datasource, measurement, start, end, intervalUnit, intervalType ){
+      return $http.get('http://localhost:8080/data/'+ datasource  + '/'+ measurement + '?start=' + start+ '&end=' + end + '&interval=' +intervalUnit+intervalType)
+        .then(function(res){
+          // Save the graph to the factory so it can be used in other controllers
+          graphData = [];
+          graphData = res;
+          console.log('saved', graphData);
+        })
+        .catch(function(error){
+          console.log('There was an error fetching the data :\'( : ' + error.message);
+        });
+    },
 
-      // $http({
-      //   method: 'GET',
-      //   url: 'http://localhost:8080/data/github/commit'})
-      // .then(function(res){
-      //
-      //   // Loop through the data and push it
-      //   for(var i = 0; i < res.data.data.length; i++){
-      //
-      //     var timestamp = res.data.data[i].time;
-      //     var data = res.data.data[i].data;
-      //     results.push({
-      //       timestamp: timestamp,
-      //       data: data
-      //     });
-      //
-      //   }
-
-      }).catch(function(error){
-         console.log('There was an error fetching the data :\'( : ' + error.message);
-      });
+    // For controller 2 controller data
+    getGraphData: function(){
+      console.log('getting data');
+      return graphData;
     }
-
-
-
-
-
-
 
   };
   return Auth;

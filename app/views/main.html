@@ -1,9 +1,121 @@
+<div id="wrapper">
 
-<div class="container">
-  <!-- <div class="jumbotron"> -->
-    <canvas id="line" class="chart chart-line" chart-data="data"
-      chart-labels="labels" chart-series="series" chart-options="options"
-      chart-dataset-override="datasetOverride" chart-click="onClick"
-    </canvas>
-  <!-- </div> -->
+  <div id="sidebar-wrapper">
+      <ul class="sidebar-nav">
+          <li class="sidebar-brand">
+            Klipfolio Decode 2016
+          </li>
+
+          <li>
+            <h4> <i class="fa fa-cogs fa-line-chart"></i> Data Analysis</h4>
+            <p ng-repeat="item in allOptions" class="item" id="{{item.id}}">
+              <input type="checkbox"
+                ng-change="sync(bool, item)"
+                ng-model="bool">  {{item.value}}
+          </li>
+            <br/>
+          <li>
+              <h4> <i class="fa fa-cogs"></i> Source Settings</h4>
+
+                <!-- Note: Source settings form uses the controller from AbouCtrl -->
+
+                <div ng-controller="AboutCtrl">
+                  <form class="form-horizontal" ng-submit="submit()">
+                    <div class="form-group">
+                      <label for="inputStart" class="col-md-3 control-label source-item">Start:</label>
+                      <div class="col-md-8">
+                        <input type="date" class="form-control" id="inputStart" value="2016-10-20" ng-model="options.start" required="">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputEnd" class="col-md-3 control-label source-item">End:</label>
+                      <div class="col-md-8">
+                        <input type="date" class="form-control" id="inputEnd" value="2016-10-27" ng-model="options.end" required="">
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <!-- <label for="dropdownSource" class="col-md-3 control-label source-item">Source</label> -->
+                        <div class="dropdown col-md-offset-1 col-md-12">
+                          <button class="btn btn-default dropdown-toggle col-md-10" type="button" id="source" data-toggle="dropdown"> {{ selectedSource.name }}
+                          <span class="caret"></span></button>
+                          <ul class="dropdown-menu" aria-labelledby="sourceSelect">
+                            <li ng-repeat="source in sources">
+                              <a href="" ng-click="setSource(source)"> {{ source.name }}</a>
+                            </li>
+                          </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                      <!-- <label for="dropdownSource" class="col-md-3 control-label source-item">Measure</label> -->
+                        <div class="dropdown col-md-offset-1 col-md-12">
+                          <button class="btn btn-default dropdown-toggle col-md-10" type="button" id="menu1" data-toggle="dropdown"> {{ selectedMeasure.name }}
+                          <span class="caret"></span></button>
+                          <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                            <li ng-repeat="measure in measurements">
+                              <a href="" ng-click="setMeasurement()"> {{ measure.name }}</a>
+                            </li>
+                          </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="textIntervalUnit" class="col-md-1 control-label source-item">Intervals</label>
+
+
+
+
+                      <div class="">
+                        <input type="text" class="form-control" id="textIntervalUnit" ng-model="options.intervalUnit">
+
+                        <div class="dropdown">
+                          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{ selectedInterval.name }}
+                            <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li ng-repeat="item in intervals">
+                              <a href="" ng-click="setInterval(item)"> {{ item.name }}</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="form-group">
+                      <div class="col-md-offset-1 col-md-10">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" ng-submit="submit()">Submit</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+          </li>
+
+      </ul>
+  </div>
+
+  <div id="page-content-wrapper">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-lg-12">
+                  <!-- <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a> -->
+                  <button class="btn btn-primary btn-lg btn-block" ng-click="refresh()">Refresh</button>
+                  <canvas id="line" class="chart chart-line" chart-data="data"
+                    chart-labels="labels" chart-series="series" chart-options="options"
+                    chart-dataset-override="datasetOverride" chart-click="onClick"
+                  </canvas>
+              </div>
+          </div>
+      </div>
+  </div>
+
 </div>
+
+<script>
+   $("#menu-toggle").click(function(e) {
+       e.preventDefault();
+       $("#wrapper").toggleClass("toggled");
+   });
+</script>
