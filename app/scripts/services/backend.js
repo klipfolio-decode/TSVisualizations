@@ -11,7 +11,7 @@ angular.module('klipfolioFrontEndApp').factory('Backend', function($rootScope, $
       // Return the $http promise not the data
       return $http.get('http://localhost:8080/data/github/commit?start=1475419531&end=1476543246&interval=1d')
         .catch(function(error){
-          console.log('There was an error fetching the data :\'( : ' + error.message);
+          console.log('There was an error fetching the data :\'(  ' + error.message);
         });
     },
 
