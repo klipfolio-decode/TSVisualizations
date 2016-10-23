@@ -106,5 +106,7 @@ angular.module('klipfolioFrontEndApp')
           refreshGraph();
       });
 
-
+      Backend.getAvailableSourcesData().then(function(){
+        Backend.notifySources();
+      });
   });

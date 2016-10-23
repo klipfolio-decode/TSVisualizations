@@ -10,18 +10,37 @@
 angular.module('klipfolioFrontEndApp')
   .controller('SourceCtrl', function ($scope, Backend) {
 
-    /// Data Source Options - hardcoded for now
-    $scope.sources = [
-      {id: 'github', name:'Github'},
-      {id: 'facebook', name:'Facebook'},
-      {id: 'sneakernews', name:'Sneaker News'}
-    ];
+    /// Data Source Options
+    $scope.sources = [];
+    $scope.measurements = [];
 
-    $scope.measurements = [
-      {id: 'commit', name:'Commits'},
-      {id: 'user', name:'User'},
-      {id: 'repo', name:'Repo'}
-    ];
+    Backend.subscribeSources($scope, function(){
+      var availableSources =  Backend.getAvailableSources();
+
+      for(var i = 0; i < availableSources.data.data.length; i++){
+          var source = availableSources.data.data[i].datasource;
+          var measurements = availableSources.data.data[i].measurements[i];
+          var meaurementName = measurements.name;
+          var optionals = measurements.filter.optional;
+          var required = measurements.filter.required;
+
+          console.log(optionals);
+          console.log(required);
+
+          // Add data to scope and set selected
+          $scope.sources.push({
+            id: source ,
+            name: source.charAt(0).toUpperCase() + source.slice(1)
+          });
+          $scope.selectedSource = $scope.sources[0];
+
+          $scope.measurements.push({
+            id: meaurementName,
+            name: meaurementName.charAt(0).toUpperCase() + meaurementName.slice(1)
+          });
+          $scope.selectedMeasure = $scope.measurements[0];
+      }
+    });
 
     $scope.intervals = [
       {id: 's', name: 'Seconds'},
@@ -31,11 +50,7 @@ angular.module('klipfolioFrontEndApp')
       {id: 'w', name: 'Weeks'}
     ];
 
-    /// Set the default values
-    $scope.selectedSource = $scope.sources[0];
-    $scope.selectedMeasure = $scope.measurements[0];
-    $scope.selectedInterval = $scope.intervals[2];
-
+    $scope.selectedInterval = $scope.intervals[3];
 
     /// Controller setters
     $scope.setSource = function(source){
@@ -63,6 +78,5 @@ angular.module('klipfolioFrontEndApp')
         // after we get the data notify
         Backend.notify();
       });
-
     };
   });
