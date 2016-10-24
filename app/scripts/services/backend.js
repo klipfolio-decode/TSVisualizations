@@ -12,14 +12,14 @@ angular.module('klipfolioFrontEndApp').factory('Backend', function($rootScope, $
     // Get da defaults
     getDefaultData: function(){
       // Return the $http promise not the data
-      return $http.get(BASE_URL + 'github/commit?start=1475419531&end=1476543246&interval=1d')
+      return $http.get(BASE_URL + 'github/commit?start=1476840141&end=1477333341&interval=1d&author=richardison&repo=TSVisualizations')
         .catch(function(error){
           console.log('ERROR: Unable to fetch the default data: ' + error.message);
         });
     },
 
-    getDataFromQuery: function(datasource, measurement, start, end, intervalUnit, intervalType ){
-      return $http.get(BASE_URL + datasource  + '/'+ measurement + '?start=' + start+ '&end=' + end + '&interval=' +intervalUnit+intervalType)
+    getDataFromQuery: function(datasource, measurement, start, end, intervalUnit, intervalType, author, repo){
+      return $http.get(BASE_URL + datasource  + '/'+ measurement + '?start=' + start+ '&end=' + end + '&interval=' +intervalUnit+intervalType + '&author=' + author + '&repo=' + repo)
         .then(function(res){
           // Save the graph to the factory so it can be used in other controllers
           graphData = [];

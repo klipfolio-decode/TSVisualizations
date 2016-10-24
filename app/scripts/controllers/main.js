@@ -67,7 +67,6 @@ angular.module('klipfolioFrontEndApp')
 
       /// Functions to update the graph data
       var parseGraphData = function(graphData){
-        /*
         for(var i=0; i< graphData.data.data.length; i++){
           var time = graphData.data.data[i].time;
           var data = graphData.data.data[i].data;
@@ -75,8 +74,7 @@ angular.module('klipfolioFrontEndApp')
             time: time,
             data: data
           });
-        }*/
-        console.log("Finished parsing...");
+        }
       };
 
       var updateGraphLabels = function(){

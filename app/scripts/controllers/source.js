@@ -39,7 +39,7 @@ angular.module('klipfolioFrontEndApp')
           $scope.selectedMeasure = $scope.measurements[0];
         }
 
-        // TODO: Add filters dynamically 
+        // TODO: Add filters dynamically
 
       }
     });
@@ -57,12 +57,10 @@ angular.module('klipfolioFrontEndApp')
 
     /// Controller setters
     $scope.setSource = function(source){
-      console.log(source);
       $scope.selectedSource = source;
     };
 
     $scope.setMeasurement = function(measurement){
-      console.log(measurement);
       $scope.selectedMeasure = measurement;
     };
 
@@ -83,7 +81,7 @@ angular.module('klipfolioFrontEndApp')
       var optional = $scope.source.filterOptional;
 
       // Get the data based on the query
-      Backend.getDataFromQuery(source, measurement, start, end, intervalUnit, intervalType).then(function(){
+      Backend.getDataFromQuery(source, measurement, start, end, intervalUnit, intervalType, optional, required).then(function(){
         // after we get the data notify
         Backend.notify();
       });
