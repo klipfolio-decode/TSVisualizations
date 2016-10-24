@@ -38,21 +38,36 @@ angular.module('klipfolioFrontEndApp')
       /// Graph analysis stuff
       $scope.allOptions = [
        {
-         'id' : '1',
+         'id' : 'lr',
          'value' : 'Linear Regression',
        },
        {
-         'id' : '2',
+         'id' : 'fc',
          'value' : 'Forecasting',
        },
        {
-         'id' : '3',
+         'id' : 'o',
          'value' : 'Outliers',
        }];
 
+      $scope.analysisOption = [];
+
+      $scope.sync = function(bool, item){
+        if(bool){
+          $scope.analysisOption.push(item);
+          console.log($scope.analysisOption);
+        } else {
+          for(var i=0 ; i < $scope.analysisOption.length; i++) {
+           if($scope.analysisOption[i].id === item.id){
+             $scope.analysisOption.splice(i,1);
+           }
+          }
+        }
+      };
 
       /// Functions to update the graph data
       var parseGraphData = function(graphData){
+        /*
         for(var i=0; i< graphData.data.data.length; i++){
           var time = graphData.data.data[i].time;
           var data = graphData.data.data[i].data;
@@ -60,7 +75,8 @@ angular.module('klipfolioFrontEndApp')
             time: time,
             data: data
           });
-        }
+        }*/
+        console.log("Finished parsing...");
       };
 
       var updateGraphLabels = function(){

@@ -16,29 +16,31 @@ angular.module('klipfolioFrontEndApp')
 
     Backend.subscribeSources($scope, function(){
       var availableSources =  Backend.getAvailableSources();
+      console.log('availableSources', availableSources.data.data['github']);
 
-      for(var i = 0; i < availableSources.data.data.length; i++){
-          var source = availableSources.data.data[i].datasource;
-          var measurements = availableSources.data.data[i].measurements[i];
-          var meaurementName = measurements.name;
-          var optionals = measurements.filter.optional;
-          var required = measurements.filter.required;
+      // Loop through the schema to get the source settings
+      for(var source in availableSources.data.data) {
 
-          console.log(optionals);
-          console.log(required);
+        // Add the available sources and set selected
+        $scope.sources.push({
+          id: source,
+          name: source.charAt(0).toUpperCase() + source.slice(1)
+        });
+        $scope.selectedSource = $scope.sources[0];
 
-          // Add data to scope and set selected
-          $scope.sources.push({
-            id: source ,
-            name: source.charAt(0).toUpperCase() + source.slice(1)
-          });
-          $scope.selectedSource = $scope.sources[0];
+        // Now we go through the measurements
+        var measurements = availableSources.data.data[source].measurements;
 
+        for (var measurement in measurements) {
           $scope.measurements.push({
-            id: meaurementName,
-            name: meaurementName.charAt(0).toUpperCase() + meaurementName.slice(1)
+            id: measurement,
+            name: measurement.charAt(0).toUpperCase() + measurement.slice(1)
           });
           $scope.selectedMeasure = $scope.measurements[0];
+        }
+
+        // TODO: Add filters dynamically 
+
       }
     });
 
@@ -50,15 +52,18 @@ angular.module('klipfolioFrontEndApp')
       {id: 'w', name: 'Weeks'}
     ];
 
+
     $scope.selectedInterval = $scope.intervals[3];
 
     /// Controller setters
     $scope.setSource = function(source){
+      console.log(source);
       $scope.selectedSource = source;
     };
 
-    $scope.setMeasure = function(measure){
-      $scope.selectedMeasure = measure;
+    $scope.setMeasurement = function(measurement){
+      console.log(measurement);
+      $scope.selectedMeasure = measurement;
     };
 
     $scope.setInterval = function(interval) {
@@ -72,6 +77,10 @@ angular.module('klipfolioFrontEndApp')
       var end = new Date($scope.source.end).getTime()/1000;
       var intervalType = $scope.selectedInterval.id;
       var intervalUnit = $scope.source.intervalUnit;
+
+      // Filter
+      var required = $scope.source.filterRequired;
+      var optional = $scope.source.filterOptional;
 
       // Get the data based on the query
       Backend.getDataFromQuery(source, measurement, start, end, intervalUnit, intervalType).then(function(){

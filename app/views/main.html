@@ -52,20 +52,36 @@
                     </div>
 
                     <div class="form-group">
-                      <!-- <label for="dropdownSource" class="col-md-3 control-label source-item">Measure</label> -->
+                      <!-- <label for="dropdownSource" class="col-md-3 control-label source-item">Source</label> -->
                         <div class="dropdown col-md-offset-1 col-md-12">
-                          <button class="btn btn-default dropdown-toggle col-md-10" type="button" id="menu1" data-toggle="dropdown"> {{ selectedMeasure.name }}
+                          <button class="btn btn-default dropdown-toggle col-md-10" type="button" id="measure" data-toggle="dropdown"> {{ selectedMeasure.name }}
                           <span class="caret"></span></button>
-                          <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                          <ul class="dropdown-menu" aria-labelledby="measureSelect">
                             <li ng-repeat="measure in measurements">
-                              <a href="" ng-click="setMeasurement()"> {{ measure.name }}</a>
+                              <a href="" ng-click="setMeasurement(measure)"> {{ measure.name }}</a>
                             </li>
                           </ul>
                         </div>
                     </div>
+                    <div class="menu-content">
+                      <div class="form-group">
+                        <label class="control-label source-item">Filters:</label>
+                      </div>
+                      <div class="form-group">
+                        <label for="textfilterRequired" class="col-md-5 control-label source-item">Repo</label>
+                        <div class="col-md-7">
+                          <input type="text" class="form-control" id="textfilterRequired" ng-model="source.filterRequired" required="">
+                        </div>
+                      </div>
 
+                      <div class="form-group">
+                        <label for="textfilterOptional" class="col-md-5 control-label source-item">Author</label>
+                        <div class="col-md-7">
+                          <input type="text" class="form-control" id="textfilterOptional" ng-model="source.filterOptional">
+                        </div>
+                      </div>
+                    </div>
                     <div class="form-group">
-
                       <div class="form-group">
                         <label for="textIntervalUnit" class="col-md-6 control-label source-item">Interval Unit:</label>
                         <div class="col-md-4">
