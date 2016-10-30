@@ -19,8 +19,8 @@ angular.module('klipfolioFrontEndApp')
 
       /// Graph stuff
       $scope.labels = [];
-      $scope.series = ['Commits'];
-      $scope.data = [[]];
+      $scope.series = ['Commits', 'Forcasted Data'];
+      $scope.data = [[],[]];
       $scope.datasetOverride = [{ yAxisID: 'Time', spanGaps: false }];
       $scope.options = {
         scales: {
@@ -38,24 +38,30 @@ angular.module('klipfolioFrontEndApp')
       /// Graph analysis stuff
       $scope.allOptions = [
        {
-         'id' : 'lr',
-         'value' : 'Linear Regression',
-       },
-       {
-         'id' : 'fc',
+         'id' : 'f',
          'value' : 'Forecasting',
-       },
-       {
-         'id' : 'o',
-         'value' : 'Outliers',
        }];
 
       $scope.analysisOption = [];
 
       $scope.sync = function(bool, item){
         if(bool){
-          $scope.analysisOption.push(item);
-          console.log($scope.analysisOption);
+          Backend.getAnalyticsData().then(function(res){
+
+            for(var i=0; i<res.data.data.length; i++){
+              console.log(res.data.data[i].data);
+              $scope.data[1].push(res.data.data[i].data);
+            }
+
+            console.log($scope.data);
+
+          }).catch(function(error){
+            console.log('ERROR', error);
+          });
+
+          //$scope.analysisOption.push(item);
+          //console.log(item.id);
+          //console.log($scope.analysisOption);
         } else {
           for(var i=0 ; i < $scope.analysisOption.length; i++) {
            if($scope.analysisOption[i].id === item.id){
@@ -99,7 +105,7 @@ angular.module('klipfolioFrontEndApp')
       var refreshGraph = function(){
         results = [];
         $scope.labels = [];
-        $scope.data = [[]];
+        $scope.data = [[],[]];
 
         parseGraphData(Backend.getGraphData());
         updateGraphLabels();

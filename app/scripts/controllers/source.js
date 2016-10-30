@@ -16,7 +16,7 @@ angular.module('klipfolioFrontEndApp')
 
     Backend.subscribeSources($scope, function(){
       var availableSources =  Backend.getAvailableSources();
-      console.log('availableSources', availableSources.data.data['github']);
+      console.log('availableSources', availableSources.data.data);
 
       // Loop through the schema to get the source settings
       for(var source in availableSources.data.data) {
@@ -36,7 +36,7 @@ angular.module('klipfolioFrontEndApp')
             id: measurement,
             name: measurement.charAt(0).toUpperCase() + measurement.slice(1)
           });
-          $scope.selectedMeasure = $scope.measurements[0];
+          $scope.selectedMeasure = $scope.measurements[1];
         }
 
         // TODO: Add filters dynamically
@@ -71,8 +71,8 @@ angular.module('klipfolioFrontEndApp')
     $scope.submit = function(){
       var source = $scope.selectedSource.id;
       var measurement = $scope.selectedMeasure.id;
-      var start = new Date($scope.source.start).getTime()/1000;
-      var end = new Date($scope.source.end).getTime()/1000;
+      var start = new Date($scope.source.start) / 1000;
+      var end = new Date($scope.source.end) / 1000;
       var intervalType = $scope.selectedInterval.id;
       var intervalUnit = $scope.source.intervalUnit;
 
