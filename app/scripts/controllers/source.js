@@ -10,25 +10,31 @@
 angular.module('klipfolioFrontEndApp')
   .controller('SourceCtrl', function ($scope, Backend) {
 
-    /// Data Source Options
+    // Data Source Options
     $scope.sources = [];
     $scope.measurements = [];
+    $scope.intervals = [
+      {id: 's', name: 'Seconds'},
+      {id: 'm', name: 'Minutes'},
+      {id: 'h', name: 'Hours'},
+      {id: 'd', name: 'Days'},
+      {id: 'w', name: 'Weeks'}
+    ];
+    $scope.selectedInterval = $scope.intervals[3];
 
+    // The controller is subscribed to the 'backend:getAvailableSources' event.
+    // Whenever this event is triggered this function gets called.
     Backend.subscribeSources($scope, function(){
       var availableSources =  Backend.getAvailableSources();
-      console.log('availableSources', availableSources.data.data);
 
-      // Loop through the schema to get the source settings
+      // Go through the data we received and add it to the scope
       for(var source in availableSources.data.data) {
-
-        // Add the available sources and set selected
         $scope.sources.push({
           id: source,
           name: source.charAt(0).toUpperCase() + source.slice(1)
         });
         $scope.selectedSource = $scope.sources[0];
 
-        // Now we go through the measurements
         var measurements = availableSources.data.data[source].measurements;
 
         for (var measurement in measurements) {
@@ -38,24 +44,11 @@ angular.module('klipfolioFrontEndApp')
           });
           $scope.selectedMeasure = $scope.measurements[1];
         }
-
         // TODO: Add filters dynamically
-
       }
     });
 
-    $scope.intervals = [
-      {id: 's', name: 'Seconds'},
-      {id: 'm', name: 'Minutes'},
-      {id: 'h', name: 'Hours'},
-      {id: 'd', name: 'Days'},
-      {id: 'w', name: 'Weeks'}
-    ];
-
-
-    $scope.selectedInterval = $scope.intervals[3];
-
-    /// Controller setters
+    // Controller setters
     $scope.setSource = function(source){
       $scope.selectedSource = source;
     };
@@ -68,11 +61,12 @@ angular.module('klipfolioFrontEndApp')
       $scope.selectedInterval = interval;
     };
 
+    // TODO: Make POST request instead of GET.
     $scope.submit = function(){
       var source = $scope.selectedSource.id;
       var measurement = $scope.selectedMeasure.id;
-      var start = new Date($scope.source.start) / 1000;
-      var end = new Date($scope.source.end) / 1000;
+      var start = new Date($scope.source.start).getTime() / 1000;
+      var end = new Date($scope.source.end).getTime() / 1000;
       var intervalType = $scope.selectedInterval.id;
       var intervalUnit = $scope.source.intervalUnit;
 
@@ -80,9 +74,10 @@ angular.module('klipfolioFrontEndApp')
       var required = $scope.source.filterRequired;
       var optional = $scope.source.filterOptional;
 
-      // Get the data based on the query
+      // Create query from user info
       Backend.getDataFromQuery(source, measurement, start, end, intervalUnit, intervalType, optional, required).then(function(){
-        // after we get the data notify
+        // Once we get the data we can trigger the 'backend:getGraphData' event
+        // so that the main controller can get the correct graph data.
         Backend.notify();
       });
     };

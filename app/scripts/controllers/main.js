@@ -11,14 +11,12 @@ angular.module('klipfolioFrontEndApp')
   .controller('MainCtrl', function ($scope, Backend) {
 
       var results = [];
-
-      /// For pretty printing months
       var monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-                        'July', 'August', 'September', 'October', 'November', 'December'
-                      ];
+                        'July', 'August', 'September', 'October', 'November', 'December'];
 
-      /// Graph stuff
+      // Data for graph
       $scope.labels = [];
+      // TODO: Get series dynamically.
       $scope.series = ['Commits', 'Forcasted Data'];
       $scope.data = [[],[]];
       $scope.datasetOverride = [{ yAxisID: 'Time', spanGaps: false }];
@@ -35,43 +33,37 @@ angular.module('klipfolioFrontEndApp')
         }
       };
 
-      /// Graph analysis stuff
+      // Graph analysis data
       $scope.allOptions = [
        {
          'id' : 'f',
          'value' : 'Forecasting',
        }];
-
       $scope.analysisOption = [];
 
+      // Makes a POST request to receive analytical data.
+      // TODO: Choose analytics data based on checkbox
       $scope.sync = function(bool, item){
         if(bool){
           Backend.getAnalyticsData().then(function(res){
-
             for(var i=0; i<res.data.data.length; i++){
-              console.log(res.data.data[i].data);
               $scope.data[1].push(res.data.data[i].data);
             }
-
-            console.log($scope.data);
-
           }).catch(function(error){
-            console.log('ERROR', error);
+            console.log('ERROR: Unable to get analytics data. ', error.message);
           });
-
-          //$scope.analysisOption.push(item);
-          //console.log(item.id);
-          //console.log($scope.analysisOption);
+          $scope.analysisOption.push(item);
         } else {
           for(var i=0 ; i < $scope.analysisOption.length; i++) {
            if($scope.analysisOption[i].id === item.id){
+             $scope.data[1] = [];
              $scope.analysisOption.splice(i,1);
            }
           }
         }
       };
 
-      /// Functions to update the graph data
+      // Functions to update the graph data
       var parseGraphData = function(graphData){
         for(var i=0; i< graphData.data.data.length; i++){
           var time = graphData.data.data[i].time;
@@ -113,7 +105,7 @@ angular.module('klipfolioFrontEndApp')
       };
 
 
-      /// Bless up for the data we are about to receive
+      // Bless up for the default data we are about to receive
       Backend.getDefaultData().then(function(data){
         parseGraphData(data);
         updateGraphLabels();
@@ -121,11 +113,12 @@ angular.module('klipfolioFrontEndApp')
       });
 
 
-      /// Subscribe to changes in the factory
+      // Main controller is subscribec to 'backend:getGraphData' event.
+      // Triggered when the source controller receives data.
       Backend.subscribe($scope, function(){
           refreshGraph();
       });
-
+      
       Backend.getAvailableSourcesData().then(function(){
         Backend.notifySources();
       });
