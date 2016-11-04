@@ -16,7 +16,7 @@ angular.module('klipfolioFrontEndApp').factory('Backend', function($rootScope, $
     * @return Promise - promise to get future data.
     **/
     getDefaultData: function(){
-      return $http.get(BASE_URL + 'github/commit?start=1476840141&end=1477333341&interval=1d&owner=richardison&repo=TSVisualizations')
+      return $http.get(BASE_URL + 'github/commit?start=1476130178&end=1478808578&interval=1d&owner=richardison&repo=TSVisualizations')
         .catch(function(error){
           console.log('ERROR: Unable to fetch the default data: ' + error.message);
         });

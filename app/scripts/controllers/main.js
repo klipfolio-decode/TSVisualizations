@@ -46,9 +46,14 @@ angular.module('klipfolioFrontEndApp')
       $scope.sync = function(bool, item){
         if(bool){
           Backend.getAnalyticsData().then(function(res){
+            console.log('analytics',res);
             for(var i=0; i<res.data.data.length; i++){
+              if (res.data.data[i].data < 0) {
+                res.data.data[i].data = 0;
+              }
               $scope.data[1].push(res.data.data[i].data);
             }
+            console.log($scope.data[1]);
           }).catch(function(error){
             console.log('ERROR: Unable to get analytics data. ', error.message);
           });
@@ -56,7 +61,7 @@ angular.module('klipfolioFrontEndApp')
         } else {
           for(var i=0 ; i < $scope.analysisOption.length; i++) {
            if($scope.analysisOption[i].id === item.id){
-             $scope.data[1] = [];
+             //$scope.data[1] = [];
              $scope.analysisOption.splice(i,1);
            }
           }
@@ -65,9 +70,9 @@ angular.module('klipfolioFrontEndApp')
 
       // Functions to update the graph data
       var parseGraphData = function(graphData){
-        for(var i=0; i< graphData.data.data.length; i++){
-          var time = graphData.data.data[i].time;
-          var data = graphData.data.data[i].data;
+        for(var i=0; i< graphData.data.length; i++){
+          var time = graphData.data[i].time;
+          var data = graphData.data[i].sum;
           results.push({
             time: time,
             data: data
@@ -107,6 +112,7 @@ angular.module('klipfolioFrontEndApp')
 
       // Bless up for the default data we are about to receive
       Backend.getDefaultData().then(function(data){
+        console.log('Default data', data);
         parseGraphData(data);
         updateGraphLabels();
         updateGraphValues();
@@ -118,7 +124,7 @@ angular.module('klipfolioFrontEndApp')
       Backend.subscribe($scope, function(){
           refreshGraph();
       });
-      
+
       Backend.getAvailableSourcesData().then(function(){
         Backend.notifySources();
       });

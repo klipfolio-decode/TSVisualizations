@@ -22,7 +22,7 @@ angular.module('klipfolioFrontEndApp')
     ];
     $scope.selectedInterval = $scope.intervals[3];
 
-    // The controller is subscribed to the 'backend:getAvailableSources' event.
+    // The source controller is subscribed to the 'backend:getAvailableSources' event.
     // Whenever this event is triggered this function gets called.
     Backend.subscribeSources($scope, function(){
       var availableSources =  Backend.getAvailableSources();
@@ -44,6 +44,8 @@ angular.module('klipfolioFrontEndApp')
           });
           $scope.selectedMeasure = $scope.measurements[1];
         }
+
+
         // TODO: Add filters dynamically
       }
     });
