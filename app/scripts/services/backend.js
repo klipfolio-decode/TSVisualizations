@@ -16,7 +16,7 @@ angular.module('klipfolioFrontEndApp').factory('Backend', function($rootScope, $
     * @return Promise - promise to get future data.
     **/
     getDefaultData: function(){
-      return $http.get(BASE_URL + 'github/commit?start=1476130178&end=1478808578&interval=1d&owner=richardison&repo=TSVisualizations')
+      return $http.get(BASE_URL + 'github/commit?start=1476130178&end=1478808578&interval=1d&repo=leaflet/leaflet')
         .catch(function(error){
           console.log('ERROR: Unable to fetch the default data: ' + error.message);
         });
@@ -38,12 +38,11 @@ angular.module('klipfolioFrontEndApp').factory('Backend', function($rootScope, $
     *
     * @return Promise - promise to get future data.
     **/
-    getDataFromQuery: function(datasource, measurement, start, end, interval, grouping, owner, repo){
+    getDataFromQuery: function(datasource, measurement, start, end, interval, grouping, repo){
       var query = BASE_URL + datasource + '/' + measurement
               +   '?start='   + start
               +   '&end='     + end
               +   '&interval='+ interval + grouping
-              +   '&owner='  + owner
               +   '&repo='    + repo;
 
       console.log(query);

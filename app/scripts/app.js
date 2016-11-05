@@ -26,16 +26,6 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/source', {
-        templateUrl: 'views/source.html',
-        controller: 'SourceCtrl',
-        controllerAs: 'source'
-      })
-      .when('/data', {
-        templateUrl: 'views/data.html',
-        controller: 'DataCtrl',
-        controllerAs: 'data'
-      })
       .otherwise({
         redirectTo: '/'
       });

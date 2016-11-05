@@ -74,10 +74,9 @@ angular.module('klipfolioFrontEndApp')
 
       // Filter
       var required = $scope.source.filterRequired;
-      var optional = $scope.source.filterOptional;
 
       // Create query from user info
-      Backend.getDataFromQuery(source, measurement, start, end, intervalUnit, intervalType, optional, required).then(function(){
+      Backend.getDataFromQuery(source, measurement, start, end, intervalUnit, intervalType, required).then(function(){
         // Once we get the data we can trigger the 'backend:getGraphData' event
         // so that the main controller can get the correct graph data.
         Backend.notify();
